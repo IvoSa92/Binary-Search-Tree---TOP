@@ -58,3 +58,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 const tree = new BinaryTree();
+
+tree.buildTree(data);
+
+prettyPrint(tree.root);
