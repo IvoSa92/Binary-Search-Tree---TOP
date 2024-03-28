@@ -1,8 +1,8 @@
 class Node {
   constructor(data) {
-    this.data;
-    this.right;
-    this.left;
+    this.data = data;
+    this.right = null;
+    this.left = null;
   }
 }
 
@@ -15,14 +15,30 @@ class BinaryTree {
     const set = new Set(array.sort((a, b) => a - b));
     const sortedArray = [...set];
 
-    // suche den mittleren wert der array und setze ihn als root node
+    this.root = new Node(sortedArray[Math.floor(sortedArray.length / 2)]);
 
-    //durchlaufe die array , wenn die zahl kleiner ist als die root node prüfe ob es eine root.left gibt,
-    //wenn nicht setze sie als root.left, wenn ja dann prüfe ob root.left größer oder kleiner ist als value und setze sie anhand dessen auf root.right oder left
+    for (let i = 0; i < sortedArray.length; i++) {
+      if (this.root.data !== sortedArray[i]) {
+        let newNode = new Node(sortedArray[i]);
+        this.insertNode(this.root, newNode);
+      }
+    }
+  }
 
-    //ist der value gleich wie root oder root.left oder root.right dann lösche die node
-
-    //return die root node
+  insertNode(root, node) {
+    if (node.data < root.data) {
+      if (root.left === null) {
+        root.left = node;
+      } else {
+        this.insertNode(root.left, node);
+      }
+    } else {
+      if (root.right === null) {
+        root.right = node;
+      } else {
+        this.insertNode(root.right, node);
+      }
+    }
   }
 }
 
@@ -42,5 +58,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 const tree = new BinaryTree();
-
-tree.buildTree(data);
