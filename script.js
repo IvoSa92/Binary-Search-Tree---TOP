@@ -5,3 +5,9 @@ class Node {
     this.left;
   }
 }
+
+class BinaryTree {
+  constructor(array) {
+    this.root = null;
+  }
+}
