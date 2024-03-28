@@ -23,9 +23,13 @@ class BinaryTree {
         this.insertNode(this.root, newNode);
       }
     }
+    return this.root;
   }
 
   insertNode(root, node) {
+    if (root.data === node.data) {
+      return;
+    }
     if (node.data < root.data) {
       if (root.left === null) {
         root.left = node;
@@ -39,6 +43,11 @@ class BinaryTree {
         this.insertNode(root.right, node);
       }
     }
+  }
+
+  insert(value) {
+    let newInsert = new Node(value);
+    this.insertNode(this.root, newInsert);
   }
 }
 
@@ -60,5 +69,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const tree = new BinaryTree();
 
 tree.buildTree(data);
-
+tree.insert(17);
+tree.insert(18);
+tree.insert(98);
+tree.insert(98);
+tree.insert(98);
 prettyPrint(tree.root);
