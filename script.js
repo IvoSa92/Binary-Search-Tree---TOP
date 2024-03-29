@@ -130,6 +130,102 @@ class BinaryTree {
       }
     }
   }
+  inOrder(callback = null) {
+    const result = [];
+
+    const traverseInOrder = (node) => {
+      if (node.left) traverseInOrder(node.left);
+      if (callback) {
+        callback(node.data);
+      } else {
+        result.push(node.data);
+      }
+      if (node.right) traverseInOrder(node.right);
+    };
+
+    traverseInOrder(this.root);
+    return callback ? undefined : result;
+  }
+
+  preOrder(callback = null) {
+    const result = [];
+
+    const traversePreOrder = (node) => {
+      if (callback) {
+        callback(node.data);
+      } else {
+        result.push(node.data);
+      }
+      if (node.left) traversePreOrder(node.left);
+      if (node.right) traversePreOrder(node.right);
+    };
+
+    traversePreOrder(this.root);
+    return callback ? undefined : result;
+  }
+
+  postOrder(callback = null) {
+    const result = [];
+
+    const traversePostOrder = (node) => {
+      if (node.left) traversePostOrder(node.left);
+      if (node.right) traversePostOrder(node.right);
+      if (callback) {
+        callback(node.data);
+      } else {
+        result.push(node.data);
+      }
+    };
+
+    traversePostOrder(this.root);
+    return callback ? undefined : result;
+  }
+
+  height(root = this.root) {
+    if (!root) return 0;
+
+    let left = this.height(root.left);
+    let right = this.height(root.right);
+
+    return Math.max(left, right) + 1;
+  }
+
+  depth(node = this.root) {
+    node = this.find(node);
+    if (!node) return null;
+
+    let count = 0;
+    let root = this.root;
+    while (root) {
+      if (node.value === root.value) {
+        return count;
+      } else if (node.value < root.value) {
+        count++;
+        root = root.left;
+      } else if (node.value > root.value) {
+        count++;
+        root = root.right;
+      }
+    }
+  }
+
+  isBalanced(root = this.root) {
+    if (!root) return null;
+
+    let left = this.height(root.left);
+    let right = this.height(root.right);
+    if (Math.abs(left - right) > 1) {
+      return false;
+    }
+
+    this.isBalanced(root.left);
+    this.isBalanced(root.right);
+    return true;
+  }
+
+  rebalance() {
+    this.root = this.buildTree(this.levelOrder());
+  }
 }
 
 const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -156,6 +252,3 @@ tree.insert(98);
 tree.insert(112);
 
 prettyPrint(tree.root);
-tree.levelOrder((nodeValue) => {
-  console.log(nodeValue);
-});
