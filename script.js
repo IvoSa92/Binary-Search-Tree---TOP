@@ -99,6 +99,37 @@ class BinaryTree {
     }
     return root;
   }
+
+  find(value) {
+    let root = this.root;
+    while (root) {
+      if (root.data === value) {
+        return root;
+      } else if (root.data < value) {
+        root = root.right;
+      } else if (root.data > value) {
+        root = root.left;
+      }
+    }
+    return null;
+  }
+
+  levelOrder(callback) {
+    const queue = [];
+    let node = this.root;
+    queue.push(node);
+
+    while (queue.length > 0) {
+      node = queue.shift();
+
+      if (node) {
+        callback(node.data);
+
+        if (node.left) queue.push(node.left);
+        if (node.right) queue.push(node.right);
+      }
+    }
+  }
 }
 
 const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -123,6 +154,8 @@ tree.insert(17);
 tree.insert(18);
 tree.insert(98);
 tree.insert(112);
-tree.deleteItem(17);
-tree.deleteItem(324);
+
 prettyPrint(tree.root);
+tree.levelOrder((nodeValue) => {
+  console.log(nodeValue);
+});
